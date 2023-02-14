@@ -8,7 +8,7 @@ public class Main {
         DecimalFormat df = new DecimalFormat("#,###,###.00");
         int continua = 13;
         do{
-            String opcao = JOptionPane.showInputDialog(null, "Selecione a Opção desejada", "Menu", JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Selecione uma Opção", "Conversor de Moedas", "Conversor de medidas"}, "Escolha").toString();
+            String opcao = JOptionPane.showInputDialog(null, "Selecione a Opção desejada", "Menu", JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Selecione uma Opção", "Conversor de Moedas", "Conversor de Medidas BR para US"}, "Escolha").toString();
             if(opcao.equals("Conversor de Moedas")) {
                 String entrada = JOptionPane.showInputDialog(null, "Selecione a Moeda de Origem", "Menu", JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Selecione uma Opção", "Real", "Dolar", "Euro"}, "Escolha").toString();
                 String saida = JOptionPane.showInputDialog(null, "Selecione a Moeda de Destino", "Menu", JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Selecione uma Opção", "Real", "Dolar", "Euro"}, "Escolha").toString();
@@ -16,9 +16,9 @@ public class Main {
                 ConversorDeMoedas(Double.parseDouble(valor), entrada, saida);
                 JOptionPane.showMessageDialog(null, "Equivale a: " + df.format(ConversorDeMoedas(Double.parseDouble(valor), entrada, saida)) + " " + saida);
 
-            } else if (opcao.equals("Conversor de Distâncias")) {
-                String entrada = JOptionPane.showInputDialog(null, "Selecione a Medida de Origem", "Menu", JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Selecione uma Opção", "Metros", "Centímetros", "Quilometros"}, "Escolha").toString();
-                String saida = JOptionPane.showInputDialog(null, "Selecione a Medida de Destino", "Menu", JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Selecione uma Opção", "Pés", "Polegadas", "Milhas, Jardas"}, "Escolha").toString();
+            } else if (opcao.equals("Conversor de Medidas BR para US")) {
+                String entrada = JOptionPane.showInputDialog(null, "Selecione a Medida de Origem", "Menu", JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Selecione uma Opção", "Metros", "Centimetros"}, "Escolha").toString();
+                String saida = JOptionPane.showInputDialog(null, "Selecione a Medida de Destino", "Menu", JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Selecione uma Opção", "Pes", "Polegadas", "Jardas"}, "Escolha").toString();
                 String valor = JOptionPane.showInputDialog("Insira um valor:");
                 JOptionPane.showMessageDialog(null, "Equivale a: " + ConversorDistancias(Double.parseDouble(valor), entrada, saida) + " " + saida);
             }
@@ -30,6 +30,7 @@ public class Main {
     }
 
     public static Double ConversorDeMoedas(Double valor, String entrada, String saida) {
+        //the base coins used are Real and American Dollar;
         Double dolarReal = 5.16;
         Double euroReal = 5.53;
         Double euroDolar = 0.93;
@@ -53,18 +54,24 @@ public class Main {
     }
 
     public static Double ConversorDistancias(Double valor, String entrada, String saida) {
-        //1 polegada = 0,0254 metro
-        //1 pé = 0,3048 metro
-        //1 jarda = 0,9144 metro
-        //1 milha = 1609,34 metros
-        Double polegada = 2.54;
+        //the base used to convertions is the meter.
+        Double polegada = 0.0254;
         Double pe = 0.3048;
-        Double milha = 1609.34;
         Double jarda = 0.9144;
 
         switch (entrada+saida) {
-            case "MetroPolegada":
+            case "MetrosPolegadas":
                 return valor / polegada;
+            case "MetrosPes":
+                return valor / pe;
+            case "MetrosJardas":
+                return valor / jarda;
+            case "CentimetrosPolegadas":
+                return valor / polegada / 100;
+            case "CentimetrosPes":
+                return valor / pe / 100;
+            case "CentimetrosJardas":
+                return valor / jarda / 100;
             default:
                 return null;
         }
